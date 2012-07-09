@@ -16,7 +16,11 @@ def index():
 @app.route('/service/', methods=['GET', 'POST'])
 def echo():
     if request.method == 'POST':
-        answer = json.loads(request.data)['params'][0]
+        data = json.loads(request.data)
+        if data['method'] != 'echo':
+            return "error" #do some proper error handling, not this!
+            
+        answer = data['params']['message']
         return jsonify(result=answer)
     
 @app.route('/<requestedfile>')

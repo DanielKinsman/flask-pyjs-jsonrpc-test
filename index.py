@@ -9,13 +9,12 @@ from pyjamas import Window
 class IndexHtml(object):
     def onModuleLoad(self):
         self.remote = DataService()
-        self.remote.handler = self
         
         self.button = Button("echo", self.echo)
         RootPanel().add(self.button)
         
     def echo(self):
-        self.remote.sendRequest('echo', ['hello'], self)
+        self.remote.sendRequest('echo', {'message': 'hello'}, self)
     
     def onRemoteResponse(self, response, request_info):
         Window.alert("got a response:" + response)
@@ -26,7 +25,7 @@ class IndexHtml(object):
      
 class DataService(JSONProxy):
     def __init__(self):
-        JSONProxy.__init__(self, 'service/', ['echo'])
+        JSONProxy.__init__(self, 'service/')
     
 if __name__ == '__main__':
     pyjd.setup("index.html")
